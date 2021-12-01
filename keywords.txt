@@ -1,0 +1,27 @@
+#######################################
+# Syntax Coloring Map For OVS
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+OVS	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+process	KEYWORD2
+
+reset	KEYWORD2
+add	KEYWORD2
+compute	KEYWORD2
+
+get	KEYWORD2
+getMax	KEYWORD2
+samples	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
