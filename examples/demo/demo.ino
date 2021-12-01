@@ -10,7 +10,7 @@ void setup() {
 
 void loop() {
   // прочитать с аналогового пина и преобразовать
-  ovs.process(0);
+  ovs.read(0);
 
   // выводим результат
   Serial.print(ovs.get());

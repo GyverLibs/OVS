@@ -12,7 +12,7 @@ OVS	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-process	KEYWORD2
+read	KEYWORD2
 
 reset	KEYWORD2
 add	KEYWORD2

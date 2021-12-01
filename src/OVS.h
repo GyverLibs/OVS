@@ -23,7 +23,7 @@ template < uint8_t _GAIN >
 class OVS {
 public:
     // прочитать с аналогового пина и преобразовать
-    void process(uint8_t pin) {
+    void read(uint8_t pin) {
         reset();
         for (int i = 0; i < samples(); i++) add(analogRead(pin));
         compute();
