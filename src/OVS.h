@@ -13,6 +13,7 @@
 
     Версии:
     v1.0 - релиз
+    v1.1 - read() возвращает результат
 */
 
 #ifndef _OVS_h
@@ -23,10 +24,11 @@ template < uint8_t _GAIN >
 class OVS {
 public:
     // прочитать с аналогового пина и преобразовать
-    void read(uint8_t pin) {
+    uint32_t read(uint8_t pin) {
         reset();
         for (int i = 0; i < samples(); i++) add(analogRead(pin));
         compute();
+        return _sum;
     }
     
     // сбросить расчёт
@@ -48,6 +50,7 @@ public:
     uint32_t get() {
         return _sum;
     }
+    
     // получить максимальное значение при начальном разрешении
     uint32_t getMax(uint16_t bits) {
         return (1ul << (_GAIN + bits)) - (1 << _GAIN);
