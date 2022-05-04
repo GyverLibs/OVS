@@ -1,3 +1,5 @@
+This is an automatic translation, may be incorrect in some places. See sources and examples!
+
 # OVS
 Library for increasing the resolution of Arduino measurements (oversampling)
 - Increasing the bit depth to +6 bits
