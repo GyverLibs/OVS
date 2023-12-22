@@ -1,148 +1,163 @@
 This is an automatic translation, may be incorrect in some places. See sources and examples!
 
 # OVS
-Library for increasing the resolution of Arduino measurements (oversampling)
-- Increasing the bit depth to +6 bits
-- Manual operation mode (any data)
-- Automatic operation mode (on-board ADC)
+Library for increasing the measurements of Arduino measurements (overshabeling)
+- increasing discharge to +6 bits
+- manual mode of operation (any data)
+- automatic mode of operation (on -board ADC)
 - Fast calculations
 
-### Compatibility
-Compatible with all Arduino platforms (using Arduino functions)
+## compatibility
+Compatible with all arduino platforms (used arduino functions)
 
 ## Content
-- [Install](#install)
-- [Initialization](#init)
-- [Usage](#usage)
-- [Example](#example)
-- [Versions](#versions)
-- [Bugs and feedback](#feedback)
+- [installation] (# Install)
+- [initialization] (#init)
+- [use] (#usage)
+- [Example] (# Example)
+- [versions] (#varsions)
+- [bugs and feedback] (#fedback)
 
-<a id="install"></a>
+<a id="install"> </a>
 ## Installation
-- The library can be found under the name **OVS** and installed through the library manager in:
-    - Arduino IDE
-    - Arduino IDE v2
-    - PlatformIO
-- [Download library](https://github.com/GyverLibs/OVS/archive/refs/heads/main.zip) .zip archive for manual installation:
-    - Unzip and put in *C:\Program Files (x86)\Arduino\libraries* (Windows x64)
-    - Unzip and put in *C:\Program Files\Arduino\libraries* (Windows x32)
-    - Unpack and put in *Documents/Arduino/libraries/*
-    - (Arduino IDE) automatic installation from .zip: *Sketch/Include library/Add .ZIP library…* and specify the downloaded archive
-- Read more detailed instructions for installing libraries [here] (https://alexgyver.ru/arduino-first/#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE% D0%B2%D0%BA%D0%B0_%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA)
+- The library can be found by the name ** ovs ** and installed through the library manager in:
+    - Arduino ide
+    - Arduino ide v2
+    - Platformio
+- [download library] (https://github.com/gyverlibs/ovs/archive/refs/heads/main.zip). Zip archive for manual installation:
+    - unpack and put in * C: \ Program Files (X86) \ Arduino \ Libraries * (Windows X64)
+    - unpack and put in * C: \ Program Files \ Arduino \ Libraries * (Windows X32)
+    - unpack and put in *documents/arduino/libraries/ *
+    - (Arduino id) Automatic installation from. Zip: * sketch/connect the library/add .Zip library ... * and specify downloaded archive
+- Read more detailed instructions for installing libraries [here] (https://alexgyver.ru/arduino-first/#%D0%A3%D1%81%D1%82%D0%B0%BD%D0%BE%BE%BE%BED0%B2%D0%BA%D0%B0_%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA)
+### Update
+- I recommend always updating the library: errors and bugs are corrected in the new versions, as well as optimization and new features are added
+- through the IDE library manager: find the library how to install and click "update"
+- Manually: ** remove the folder with the old version **, and then put a new one in its place.“Replacement” cannot be done: sometimes in new versions, files that remain when replacing are deleted and can lead to errors!
 
-<a id="init"></a>
-## Initialization
-```cpp
-ovs<gain> ovs;
-// gain -The cranberry in <> indicates how many bits to increase the resolution. From 1 to 6 (inclusive)
-```
 
-<a id="usage"></a>
+<a id="init"> </a>
+## initialization
+`` `CPP
+Ovs <gain> ovs;
+// gain - in <> it is indicated how much bit you need to increase the resolution.From 1 to 6 (inclusive)
+`` `
+
+<a id="usage"> </a>
 ## Usage
-```cpp
-uint32_t read(uint8_t pin); // read from analog pin and convert
-uint32_t get(); // get value (updated after read() and compute())
-uint32_t getMax(uint16_t bits); // get maximum value at initial resolution
-uint16_t samples(); // get the number of measurements to take
+`` `CPP
+uint32_t Read (uint8_t pin);// read from analogue pin and transform
+uint32_t get ();// get a value (updated after Read () and Compute ())
+uint32_t getmax (uint16_t bits);// get the maximum value with the initial resolution
+uint16_t samples ();// get the number of measurements that need to be done
 
-void reset(); // reset calculation
-void add(uint16_tval); // add dimension
-void compute(); // convert
-```
-The library can be used both to work with the onboard ADC and to process data from other sources.
+VOID Reset ();// Reset the calculation
+VOID Add (Uint16_t Val);// Add measurement
+VOID Compute ();// Transform
+`` `
+The library can be used both for working with the on -board ADC, and for processing data from other sources.
 
-### Onboard ADC
-It is enough to call `read(analogue pin)`, which will return the converted result.
-It is also possible to get the previous converted value from `get()`.
+## board ADC
+It is enough to call `Read (analog PIN)`, which will return the transformed result.
+You can also take the previous transformed value from `get ()`.
 
 ### Manual mode
-In this mode, you can feed values ​​to the library from other sources:
-- Before a new measurement, you need to call `reset()`
-- Next, you need to pass new values ​​to `add(val)` in an amount equal to `samples()`
-- After passing the required number of values, call `compute()`
-- Get the converted value from `get()`
+In this mode, you can feed the library values from other sources:
+- Before the new dimension, you need to call `reset ()`
+- Next, you need to transmit new values to `Add (val)` in an amount equal to `samples ()`
+- after transmitting the right number of values, call `compute ()`
+- Take the transformed value from `get ()`
 
 ### How does it work
-Oversampling actually averages **N** measurements (in the library, this number can be obtained from `samples()`),
-fitting the new range to the specified **Gain** resolution increase. Required number of measurements
-depends on the gain as `N = 2^(2*Gain)`, i.e. 4096 measurements are needed to increase the resolution by 6 bits!
+Overcupling actually averages ** n ** dimensions (to the libraryEKE this amount can be obtained from `samples ()`),
+Turning a new range for the specified increase in the resolution ** gain **.The required number of measurements
+Depends on the increase as `n = 2^(2*gain)`, that is, to increase the resolution by 6 bits, 4096 measurements will be needed!
 
-Gain|N |
-----|-------|
-+1 |4 |
-+2 |16 |
-+3 |64 |
-+4 |256 |
-+5 |1024 |
-+6 |4096 |
+Gain | N |
+---- | ------ |
++1 | 4 |
++2 | 16 |
++3 | 64 |
++4 | 256 |
++5 | 1024 |
++6 | 4096 |
 
-<a id="example"></a>
+<a id="EXAMPLE"> </a>
 ## Example
-### Onboard ADC
-```cpp
-#include <OVS.h>
+## board ADC
+`` `CPP
+#include <OVS.H>
 
-// increase bit depth by 2
-// (AVR Arduino 10+2 = 12 bits)
-ovs<2> ovs;
+// increase the discharge by 2
+// (AVR arduino 10+2 = 12 bits)
+Ovs <2> ovs;
 
-void setup() {
-  Serial.begin(9600);
+VOID setup () {
+  Serial.Begin (9600);
 }
 
-void loop() {
-  // read from analog pin and convert
-  Serial print(ovs.cranberry read(0));
-  Serial print(',');
+VOID loop () {
+  // read from analogue pin and transform
+  Serial.print (OVS.Read (0));
+  Serial.print (',');
   
-  // after ovs.read() you can get the last result from ovs.get()
+  // After OVS.Read () you can take the last result from OVS.GET ()
 
-  // output max. value at initial resolution (We have 10 bit ADC)
-  Serial.println(ovs.getMax(10));
+  // We display Max.value at the initial resolution (we have ACP 10 bits)
+  Serial.println (OVS.getmax (10));
 }
-```
+`` `
 
 ### Manual mode
-```cpp
-// oversampling, manual mode
-#include <OVS.h>
+`` `CPP
+// overcupling, manual mode
+#include <OVS.H>
 
-// increase bit depth by 2
-// (AVR Arduino 10+2 = 12 bits)
-ovs<2> ovs;
+// increase the discharge by 2
+// (AVR arduino 10+2 = 12 bits)
+Ovs <2> ovs;
 
-void setup() {
-  Serial.begin(9600);
+VOID setup () {
+  Serial.Begin (9600);
 }
 
-void loop() {
-  // reset before measurement
-  ovs reset();
+VOID loop () {
+  // drop before measurement
+  OVS.Reset ();
 
-  // add new values ​​in the amount ovs.samples()
-  for (int i = 0; i < ovs.samples(); i++) {
-    ovs.add(analogRead(0));
+  // Add new values in the amount of ovs.samples ()
+  for (int i = 0; i <ovs.samples (); i ++) {
+    OVS.Add (analogread (0));
   }
 
-  // transform
-  ovs.compute();
+  // Transforming
+  ovs.compute ();
 
-  // display the result
-  Serial.print(ovs.get());
-  Serial print(',');
+  // We display the result
+  Serial.print (OVS.GET ());
+  Serial.print (',');
 
-  // output max. value at initial resolution (We have 10 bit ADC)
-  Serial.println(ovs.getMax(10));
+  // We display Max.value at the initial resolution (we have ACP 10 bits)
+  Serial.println (OVS.getmax (10));
 }
-```
+`` `
 
-<a id="versions"></a>
-## Versions
-- v1.0
-- v1.1 - read() returns result
+<a id="versions"> </a>
+## versions
+- V1.0
+- V1.1 - Read () returns the result
 
-<a id="feedback"></a>
-## Bugs and feedback
-When you find bugs, create an **Issue**, or better, immediately write to the mail [alex@alexgyver.ru](mailto:alex@alexgyver.ru)
-The library is open for revision and your **Pull Request**'s!
+<a id="feedback"> </a>
+## bugs and feedback
+Create ** Issue ** when you find the bugs, and better immediately write to the mail [alex@alexgyver.ru] (mailto: alex@alexgyver.ru)
+The library is open for refinement and your ** pull Request ** 'ow!
+
+
+When reporting about bugs or incorrect work of the library, it is necessary to indicate:
+- The version of the library
+- What is MK used
+- SDK version (for ESP)
+- version of Arduino ide
+- whether the built -in examples work correctly, in which the functions and designs are used, leading to a bug in your code
+- what code has been loaded, what work was expected from it and how it works in reality
+- Ideally, attach the minimum code in which the bug is observed.Not a canvas of a thousand lines, but a minimum code
