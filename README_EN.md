@@ -65,7 +65,7 @@ In this mode, you can feed the library values from other sources:
 constexpr uint16_t OVS_SAMPLES(uint8_t gain);
 
 // maximum value at the initial resolution
-constexpr uint16_t OVS_MAX(uint8_t base, uint8_t gain);
+constexpr uint32_t OVS_MAX(uint16_t base, uint8_t gain);
 
 // number by which the amount must be moved
 constexpr uint32_t OVS_SHIFT(uint8_t gain);

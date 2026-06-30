@@ -64,7 +64,7 @@ void compute();                 // преобразовать
 constexpr uint16_t OVS_SAMPLES(uint8_t gain);
 
 // максимальное значение при начальном разрешении
-constexpr uint16_t OVS_MAX(uint8_t base, uint8_t gain);
+constexpr uint32_t OVS_MAX(uint16_t base, uint8_t gain);
 
 // число, на которое нужно сдвинуть сумму
 constexpr uint32_t OVS_SHIFT(uint8_t gain);

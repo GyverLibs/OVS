@@ -3,12 +3,14 @@
 
 // количество измерений, которое нужно сделать
 constexpr uint16_t OVS_SAMPLES(uint8_t gain) {
-    return 1ul << (gain << 1);
+    return (gain >= 1 && gain <= 6) ? uint16_t(1ul << (gain << 1)) : 0;
 }
 
 // максимальное значение при начальном разрешении
-constexpr uint16_t OVS_MAX(uint8_t base, uint8_t gain) {
-    return (1ul << (gain + base)) - (1 << gain);
+constexpr uint32_t OVS_MAX(uint16_t base, uint8_t gain) {
+    return (gain >= 1 && gain <= 6 && base + gain < 32)
+               ? (1ul << (gain + base)) - (1ul << gain)
+               : 0;
 }
 
 // число, на которое нужно сдвинуть сумму
@@ -19,6 +21,8 @@ constexpr uint32_t OVS_SHIFT(uint8_t gain) {
 template <uint8_t _GAIN>
 class OVS {
    public:
+    static_assert(_GAIN >= 1 && _GAIN <= 6, "OVS gain must be from 1 to 6");
+
     // прочитать с аналогового пина и преобразовать
     uint32_t read(uint8_t pin) {
         reset();
